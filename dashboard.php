@@ -67,7 +67,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="movies.php">
+            <a class="nav-link" href="list_movies.php">
               <span data-feather="file"></span>
               Movies
             </a>
@@ -132,9 +132,9 @@
                 <td><?php echo $user_data['username']; ?></td>
                 <td><?php echo $user_data['email']; ?></td>
         
-                <td><a href="updateUsers.php?id=<?= $user_data['id'];?>">Update</a></td>
+                <td><a href="updateUsers.php?id=<?= $user_data['id'];?>" style="text-decoration: none;" class="btn btn-primary">Update</a></td>
            
-                <td><a href="deleteUsers.php?id=<?= $user_data['id'];?>">Delete</a></td>
+                <td><a href="deleteUsers.php?id=<?= $user_data['id'];?>" style="text-decoration: none;" class="btn btn-danger">Delete</a></td>
               </tr>
               
            <?php  } ?>

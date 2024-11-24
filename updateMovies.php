@@ -1,10 +1,24 @@
- <?php
+<?php
 
     include_once("config.php");
 
- ?>
- 
- <!DOCTYPE html>
+    $id = $_GET['id'];
+
+    $sql = "SELECT * FROM movies WHERE id=:id";
+
+    $selectMovie = $conn->prepare($sql);
+
+    $selectMovie->bindParam(":id", $id);
+
+    $selectMovie->execute();
+    
+    $movie_data = $selectMovie->fetch();
+
+?>
+
+
+
+<!DOCTYPE html>
  <html>
  <head>
  	<title>Dashboard</title>
@@ -20,12 +34,6 @@
 	<link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
 	<meta name="theme-color" content="#7952b3">
-
-  <style>
-    #floatingInput{
-      margin: 20px 0px;
-    }
-  </style>
  </head>
  <body>
  
@@ -47,75 +55,70 @@
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
-      <ul class="nav flex-column">
-           <?php if ($_SESSION['isadmin'] == 'true') { ?>
-            <li class="nav-item">
-              <a class="nav-link" href="home.php">
-                <span data-feather="file"></span>
-                Home
-              </a>
-            </li>
+        <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="dashboard.php">
               <span data-feather="home"></span>
               Dashboard
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="list_movies.php">
-              <span data-feather="file"></span>
-              Movies
-            </a>
-          </li>
-        <?php } ?>
-          <li class="nav-item">
-            <a class="nav-link" href="bookings.php">
-              <span ></span>
-              Bookings
-            </a>
-          </li>
+          
         </ul>
 
-    
+       
       </div>
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
-        
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+          </button>
+        </div>
       </div>
 
     
 
-      <h2>Add Movies</h2>
-
-       <form action="addMovie.php" method="post">
-    
+      <h2>Edit movie's details</h2>
+      <div class="table-responsive">
         
+        <form action="editMovies.php" method="POST">
+    
         <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Movie Name" name="movie_name" >
-          <label for="floatingInput">Movie name</label>
+          <input type="number" class="form-control" id="floatingInput" placeholder="Id" name="id" value="<?php echo  $movie_data['id'] ?>">
+          <label for="floatingInput">Id</label>
         </div>
         <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Movie Description" name="movie_desc" >
-          <label for="floatingInput">Movie Description</label>
+          <input type="text" class="form-control" id="floatingInput" placeholder="MovieName" name="movie_name" value="<?php echo  $movie_data['movie_name'] ?>">
+          <label for="floatingInput">MovieName</label>
         </div>
         <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Quality" name="movie_quality" >
-          <label for="floatingInput">Movie Quality</label>
+          <input type="text" class="form-control" id="floatingInput" placeholder="MovieDescription" name="movie_desc" value="<?php echo  $movie_data['movie_desc'] ?>">
+          <label for="floatingInput">MovieDescription</label>
         </div>
         <div class="form-floating">
-          <input type="number" class="form-control" id="floatingInput" placeholder="Rating" name="movie_rating" >
-          <label for="floatingInput">Rating</label>
+          <input type="text" class="form-control" id="floatingInput" placeholder="MovieQuality" name="movie_quality" value="<?php echo  $movie_data['movie_quality'] ?>">
+          <label for="floatingInput">MovieQuality</label>
         </div>
         <div class="form-floating">
-          <input type="file" class="form-control" id="floatingInput" placeholder="Image" name="movie_image" >
-          <label for="floatingInput">Image</label>
+          <input type="text" class="form-control" id="floatingInput" placeholder="MovieRating" name="movie_rating" value="<?php echo  $movie_data['movie_rating'] ?>">
+          <label for="floatingInput">MovieRating</label>
         </div>
-         <button  class="w-100 btn btn-lg btn-primary" type="submit" name="submit"> Add Movie </button> 
+        <div class="form-floating">
+          <input type="text" class="form-control" id="floatingInput" placeholder="MovieImage" name="movie_image" value="<?php echo  $movie_data['movie_image'] ?>">
+          <label for="floatingInput">MovieImage</label>
+        </div>
+        <br>
+        <button class="w-100 btn btn-lg btn-primary" type="submit" name="submitt">Change</button>
       </form>
-      
+
+
       </div>
     </main>
   </div>

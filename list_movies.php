@@ -1,9 +1,20 @@
- <?php
+<?php 
 
-    include_once("config.php");
+    include_once('config.php');
+
+    if (empty($_SESSION['username'])) {
+          header("Location: login.php");
+    }
+   
+    $sql = "SELECT * FROM movies";
+    $selectMovies = $conn->prepare($sql);
+    $selectMovies->execute();
+
+    $movies_data = $selectMovies->fetchAll();
+    
 
  ?>
- 
+
  <!DOCTYPE html>
  <html>
  <head>
@@ -20,12 +31,6 @@
 	<link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
 	<meta name="theme-color" content="#7952b3">
-
-  <style>
-    #floatingInput{
-      margin: 20px 0px;
-    }
-  </style>
  </head>
  <body>
  
@@ -47,7 +52,7 @@
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
-      <ul class="nav flex-column">
+        <ul class="nav flex-column">
            <?php if ($_SESSION['isadmin'] == 'true') { ?>
             <li class="nav-item">
               <a class="nav-link" href="home.php">
@@ -67,7 +72,6 @@
               Movies
             </a>
           </li>
-        <?php } ?>
           <li class="nav-item">
             <a class="nav-link" href="bookings.php">
               <span ></span>
@@ -75,8 +79,24 @@
             </a>
           </li>
         </ul>
+        <?php }else {?>
+          <li class="nav-item">
+              <a class="nav-link" href="home.php">
+               
+                Home
+              </a>
+            </li>
+          <li class="nav-item">
+          <a class="nav-link" href="bookings.php">
+            <span ></span>
+            Bookings
+          </a>
+        </li>
+        </ul>
+      <?php
+      } ?>
 
-    
+        
       </div>
     </nav>
 
@@ -86,37 +106,51 @@
         
       </div>
 
-    
+    <?php if ($_SESSION['isadmin'] == 'true') { ?>
 
-      <h2>Add Movies</h2>
+      <h2>Movies</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Movie_Name</th>
+              <th scope="col">Movie_Desc</th>
+              <th scope="col">Movie_Quality</th>
+              <th scope="col">Movie_Rating</th>
+              <th scope="col">Movie_Image</th>
+              <th scope="col">Update</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($movies_data as $movie_data) { ?>
 
-       <form action="addMovie.php" method="post">
-    
+               <tr>
+                <td><?php echo $movie_data['id']; ?></td>
+                <td><?php echo $movie_data['movie_name']; ?></td>
+                <td><?php echo $movie_data['movie_desc']; ?></td>
+                <td><?php echo $movie_data['movie_quality']; ?></td>
+                <td><?php echo $movie_data['movie_rating']; ?></td>
+                <td><?php echo $movie_data['movie_image']; ?></td>
         
-        <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Movie Name" name="movie_name" >
-          <label for="floatingInput">Movie name</label>
-        </div>
-        <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Movie Description" name="movie_desc" >
-          <label for="floatingInput">Movie Description</label>
-        </div>
-        <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Quality" name="movie_quality" >
-          <label for="floatingInput">Movie Quality</label>
-        </div>
-        <div class="form-floating">
-          <input type="number" class="form-control" id="floatingInput" placeholder="Rating" name="movie_rating" >
-          <label for="floatingInput">Rating</label>
-        </div>
-        <div class="form-floating">
-          <input type="file" class="form-control" id="floatingInput" placeholder="Image" name="movie_image" >
-          <label for="floatingInput">Image</label>
-        </div>
-         <button  class="w-100 btn btn-lg btn-primary" type="submit" name="submit"> Add Movie </button> 
-      </form>
-      
+                <td> <button class="btn btn-warning"> <a href="updateMovies.php?id=<?= $movie_data['id'];?>" style="text-decoration:none; color:white; font-weight:bold;">Update</a></button></td>
+           
+                <td> <button class="btn btn-danger"><a href="deleteMovies.php?id=<?= $movie_data['id'];?>" style="text-decoration:none; color:white; font-weight:bold;">Delete</a></button></td>
+               
+                
+              </tr>
+              
+           <?php  } ?>
+           
+            
+          </tbody>
+          <button class="btn btn-success"><a href="movies.php" style="text-decoration:none; color:white; font-weight:bold;">Add</a></button>
+        </table>
       </div>
+     <?php  } else {
+      
+    } ?>
     </main>
   </div>
 </div>

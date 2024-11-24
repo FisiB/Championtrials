@@ -1,9 +1,37 @@
- <?php
+<?php 
 
-    include_once("config.php");
 
+
+   include_once('config.php');
+
+   $user_id = $_SESSION['id'];
+   
+   if ($_SESSION['is_admin'] == 'true') {
+
+     $sql = "SELECT movies.movie_name, users.email,bookings.id, bookings.nr_tickets, bookings.date, bookings.is_approved, bookings.time FROM movies
+     INNER JOIN bookings ON movies.id = bookings.movie_id
+     INNER JOIN users ON users.id = bookings.user_id";
+            
+
+    $selectBookings = $conn->prepare($sql);
+    $selectBookings->execute();
+
+    $bookings_data = $selectBookings->fetchAll();
+   }else {
+    
+      $sql = "SELECT movies.movie_name, users.email, bookings.nr_tickets, bookings.date,bookings.is_approved, bookings.time
+            FROM movies INNER JOIN bookings ON movies.id = bookings.movie_id 
+            INNER JOIN users ON users.id = bookings.user_id WHERE bookings.user_id = :user_id";
+
+    $selectBookings = $conn->prepare($sql);
+    $selectBookings->bindParam(':user_id',$user_id);
+    $selectBookings->execute();
+
+    $bookings_data = $selectBookings->fetchAll();
+
+   }
  ?>
- 
+
  <!DOCTYPE html>
  <html>
  <head>
@@ -20,12 +48,6 @@
 	<link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
 	<meta name="theme-color" content="#7952b3">
-
-  <style>
-    #floatingInput{
-      margin: 20px 0px;
-    }
-  </style>
  </head>
  <body>
  
@@ -48,7 +70,7 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
       <ul class="nav flex-column">
-           <?php if ($_SESSION['isadmin'] == 'true') { ?>
+           <?php if ($_SESSION['is_admin'] == 'true') { ?>
             <li class="nav-item">
               <a class="nav-link" href="home.php">
                 <span data-feather="file"></span>
@@ -67,55 +89,91 @@
               Movies
             </a>
           </li>
-        <?php } ?>
+          
           <li class="nav-item">
             <a class="nav-link" href="bookings.php">
               <span ></span>
               Bookings
             </a>
           </li>
+        
+        <?php }else{ ?>
+          <li class="nav-item">
+              <a class="nav-link" href="home.php">
+                <span data-feather="file"></span>
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="bookings.php">
+              <span ></span>
+              Bookings
+            </a>
+          </li>
+          
         </ul>
 
-    
+        <?php }?>
+        
       </div>
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
-        
+       
       </div>
 
     
 
-      <h2>Add Movies</h2>
-
-       <form action="addMovie.php" method="post">
-    
+      <h2>Movie Bookings</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
         
-        <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Movie Name" name="movie_name" >
-          <label for="floatingInput">Movie name</label>
-        </div>
-        <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Movie Description" name="movie_desc" >
-          <label for="floatingInput">Movie Description</label>
-        </div>
-        <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Quality" name="movie_quality" >
-          <label for="floatingInput">Movie Quality</label>
-        </div>
-        <div class="form-floating">
-          <input type="number" class="form-control" id="floatingInput" placeholder="Rating" name="movie_rating" >
-          <label for="floatingInput">Rating</label>
-        </div>
-        <div class="form-floating">
-          <input type="file" class="form-control" id="floatingInput" placeholder="Image" name="movie_image" >
-          <label for="floatingInput">Image</label>
-        </div>
-         <button  class="w-100 btn btn-lg btn-primary" type="submit" name="submit"> Add Movie </button> 
-      </form>
-      
+              <th scope="col">Movie Name</th>
+              <th scope="col">User Email</th>
+              <th scope="col">Number of tickets</th>
+              <th scope="col">Date</th>
+              <th scope="col">Time</th>
+              <th scope="col">Approved</th>
+
+            </tr>
+          </thead>
+          <tbody>
+          <?php if ($_SESSION['is_admin'] == 'true') { ?>
+            <?php foreach ($bookings_data as $booking_data) { ?>
+                
+               <tr>
+                <td><?php echo $booking_data['movie_name']; ?></td>
+                <td><?php echo $booking_data['email']; ?></td>
+                <td><?php echo $booking_data['nr_tickets']; ?></td>
+                <td><?php echo $booking_data['date']; ?></td>
+                <td><?php echo $booking_data['time']; ?></td>
+                <td ><?php echo $booking_data['is_approved']; ?></td>
+
+                <td><a href="approve.php?id=<?= $booking_data['id'];?>">Approve</a></td>
+                <td><a href="decline.php?id=<?= $booking_data['id'];?>">Decline</a></td>
+              </tr>
+              
+           <?php }}else{ ?>
+            <?php foreach ($bookings_data as $booking_data) { ?>
+            <tr>
+            <td><?php echo $booking_data['movie_name']; ?></td>
+            <td><?php echo $booking_data['email']; ?></td>
+            <td><?php echo $booking_data['nr_tickets']; ?></td>
+            <td><?php echo $booking_data['date']; ?></td>
+            <td><?php echo $booking_data['time']; ?></td>
+            <td ><?php echo $booking_data['is_approved']; ?></td>
+           </tr>
+            
+           <?php } ?>
+          <?php } ?>
+           
+            
+          </tbody>
+        </table>
       </div>
     </main>
   </div>
