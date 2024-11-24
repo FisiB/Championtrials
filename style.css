@@ -1,0 +1,105 @@
+/* Global Styles */
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 0;
+  }
+  
+  /* Form Styles */
+  .form-signin {
+    width: 100%;
+    max-width: 380px;
+    padding: 30px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-signin img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+  }
+  
+  .form-signin h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form-signin .form-floating {
+    margin-bottom: 15px;
+  }
+  
+  .form-floating input {
+    height: 50px;
+    font-size: 1rem;
+  }
+  
+  .form-floating label {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Button Styles */
+  button {
+    font-size: 1.1rem;
+    padding: 12px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Link Styles */
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Checkbox Styles */
+  .checkbox {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .checkbox input {
+    margin-right: 5px;
+  }
+  
+  .checkbox label {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 576px) {
+    .form-signin {
+      width: 100%;
+      padding: 20px;
+    }
+  
+    .form-signin h1 {
+      font-size: 1.3rem;
+    }
+  }
+  
