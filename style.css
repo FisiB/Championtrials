@@ -2,104 +2,210 @@
 html, body {
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  body {
-    background-color: #e9ecef;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f0f4f8; /* Lighter background color for a softer appearance */
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    margin: 0;
-  }
-  
-  /* Form Styles */
-  .form-signin {
+    transition: background-color 0.5s ease; /* Smooth background transition */
+}
+
+/* Form Styles */
+.form-signin {
     width: 100%;
-    max-width: 380px;
+    max-width: 400px;
     padding: 30px;
     margin: auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-signin img {
-    width: 80px;
-    height: 80px;
+    background-color: #ffffff;
+    border-radius: 12px; /* Slightly larger border radius for a more modern look */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1); /* Larger, softer shadow */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+.form-signin:hover {
+    transform: scale(1.02);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.15); /* Larger shadow on hover */
+}
+
+.form-signin img {
+    width: 90px; /* Larger logo size */
+    height: 90px;
     margin-bottom: 20px;
-  }
-  
-  .form-signin h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-signin h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
     margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .form-signin .form-floating {
-    margin-bottom: 15px;
-  }
-  
-  .form-floating input {
+    color: #34495e; /* Darker text for contrast */
+    text-align: center;
+    animation: fadeIn 1s ease-out; /* Fade-in animation for the title */
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Floating Form Inputs */
+.form-floating {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-floating input {
     height: 50px;
+    padding: 15px;
     font-size: 1rem;
-  }
-  
-  .form-floating label {
+    border: 1px solid #dddfe3; /* Lighter border color */
+    border-radius: 8px;
+    width: 100%;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-floating input:focus {
+    outline: none;
+    border-color: #3498db; /* Vibrant blue focus border */
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.2); /* Blue glow on focus */
+}
+
+.form-floating label {
+    position: absolute;
+    top: -8px;
+    left: 15px;
+    background-color: #ffffff;
+    padding: 0 5px;
     font-size: 1rem;
-    color: #555;
-  }
-  
-  /* Button Styles */
-  button {
+    color: #7f8c8d; /* Lighter gray for the label */
+    transition: all 0.3s ease;
+}
+
+.form-floating input:focus ~ label,
+.form-floating input:not(:placeholder-shown) ~ label {
+    top: -15px;
+    font-size: 0.9rem;
+    color: #3498db; /* Blue color for label when input is focused */
+}
+
+/* Button Styles */
+button {
     font-size: 1.1rem;
     padding: 12px 20px;
-    background-color: #007bff;
+    background-color: #3498db; /* Lively blue button */
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     color: #fff;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Link Styles */
-  a {
-    color: #007bff;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    animation: bounceIn 0.7s ease-out; /* Button bounce animation */
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.8); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+    transform: translateY(-4px);
+}
+
+button:active {
+    transform: translateY(2px); /* Button press effect */
+}
+
+/* Link Styles */
+a {
+    color: #3498db;
     text-decoration: none;
-  }
-  
-  a:hover {
+    font-size: 0.9rem;
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+a:hover {
+    color: #2980b9; /* Darker blue for hover */
     text-decoration: underline;
-  }
-  
-  /* Checkbox Styles */
-  .checkbox {
+    transform: scale(1.05); /* Subtle scale-up on hover */
+}
+
+/* Checkbox Styles */
+.checkbox {
     font-size: 0.9rem;
     color: #555;
-  }
-  
-  .checkbox input {
-    margin-right: 5px;
-  }
-  
-  .checkbox label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.checkbox input {
+    margin-right: 10px;
+}
+
+.checkbox label {
     font-size: 1rem;
     color: #333;
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 576px) {
+}
+
+/* Responsive Styles */
+@media (max-width: 576px) {
     .form-signin {
-      width: 100%;
-      padding: 20px;
+        width: 100%;
+        padding: 20px;
     }
-  
+
     .form-signin h1 {
-      font-size: 1.3rem;
+        font-size: 1.5rem;
     }
-  }
-  
+
+    .form-floating input {
+        font-size: 0.95rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+
+    a {
+        font-size: 0.85rem;
+    }
+}
+
+/* Additional Styling for Error Messages */
+.error-message {
+    font-size: 0.9rem;
+    color: #e74c3c; /* Red for error */
+    margin-top: 10px;
+    text-align: center;
+    animation: shake 0.5s ease; /* Shake animation for error message */
+}
+
+@keyframes shake {
+    0% { transform: translateX(-5px); }
+    25% { transform: translateX(5px); }
+    50% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Success message styles */
+.success-message {
+    font-size: 0.9rem;
+    color: #2ecc71; /* Green for success */
+    margin-top: 10px;
+    text-align: center;
+    animation: fadeIn 1s ease-out;
+}

@@ -24,6 +24,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
+    <link rel="stylesheet" href="dashboard.css">
   	<link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -31,6 +32,7 @@
 	<link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
 	<meta name="theme-color" content="#7952b3">
+  <script>window.aichatbotApiKey="0f743cfa-5977-47ad-86a7-66d71fe9d409"; window.aichatbotProviderId="f9e9c5e4-6d1a-4b8c-8d3f-3f9e9c5e46d1";</script><script src="https://script.chatlab.com/aichatbot.js" id="0f743cfa-5977-47ad-86a7-66d71fe9d409" defer></script>
  </head>
  <body>
 
@@ -69,12 +71,7 @@
  	<section class="py-5 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Album example</h1>
-        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-        <p>
-          <a href="#" class="btn btn-primary my-2">Main call to action</a>
-          <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-        </p>
+        <h1 class="fw-light">Start making appointments</h1>
       </div>
     </div>
   </section>
@@ -97,9 +94,10 @@
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <a href="details.php?id=<?php echo $movie_data['id']; ?>"  class="btn btn-sm btn-outline-secondary" >View</a>
+                
                 </div>
                 <small class="text-muted">Rating: <?php echo $movie_data['movie_rating']; ?></small>
-                <small class="text-muted"><?php echo $movie_data['movie_quality']; ?></small>
+                <small class="text-muted"><?php echo $movie_data['category']; ?></small>
               </div>
             </div>
           </div>
@@ -115,7 +113,6 @@
   </div>
 
   
-
 
  </body>
  </html>

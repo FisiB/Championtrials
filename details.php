@@ -1,7 +1,5 @@
 <?php 
   
-	session_start();
-  
    include_once('config.php');
    $id = $_GET['id'];
    $_SESSION['movie_id'] = $id;
@@ -21,6 +19,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
+    <link rel="stylesheet" href="dashboard.css">
   	<link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -29,11 +28,7 @@
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<meta name="theme-color" content="#7952b3">
-  <style>
-    .form-floating{
-      margin: 20px 0;
-    }
-  </style>
+  <script>window.aichatbotApiKey="0f743cfa-5977-47ad-86a7-66d71fe9d409"; window.aichatbotProviderId="f9e9c5e4-6d1a-4b8c-8d3f-3f9e9c5e46d1";</script><script src="https://script.chatlab.com/aichatbot.js" id="0f743cfa-5977-47ad-86a7-66d71fe9d409" defer></script>
  </head>
  <body>
 
@@ -58,13 +53,17 @@
   </div>
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container">
-      <a href="#" class="navbar-brand d-flex align-items-center">
+      <a href="dashboard.php" class="navbar-brand d-flex align-items-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
         <strong>Album</strong>
       </a>
+      
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      <a href="dashboard.php">  
+      <span class="navbar-toggler-icon"></span>
+      </a>
       </button>
+
     </div>
   </div>
 </header>
@@ -85,7 +84,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-6">
-                    <div class="white-box text-center" style="width: 100%;height: 100%;"><img src="movie_images/<?php echo $movie_data['movie_image'];  ?>" class="img-responsive" style="width: 70%; height: 90%;"></div>
+                    <div class="white-box text-center" style="width: 100%;height: 100%;"><img src="images/<?php echo $movie_data['movie_image'];  ?>" class="img-responsive" style="width: 70%; height: 90%;"></div>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-6">
                     <h4 class="box-title mt-5"><?php echo $movie_data['movie_name']; ?></h4>
@@ -113,5 +112,6 @@
             </div>
         </div>
     </div>
+    
  </body>
  </html>

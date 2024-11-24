@@ -23,18 +23,4 @@
 	$insertBooking->execute();
 
 	header("Location: home.php");
-
-	
-	
-
-
-
-
-
-
-
-
-
-
-
  ?>

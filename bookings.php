@@ -1,12 +1,10 @@
 <?php 
 
-
-
    include_once('config.php');
 
    $user_id = $_SESSION['id'];
    
-   if ($_SESSION['is_admin'] == 'true') {
+   if ($_SESSION['isadmin'] == 'true') {
 
      $sql = "SELECT movies.movie_name, users.email,bookings.id, bookings.nr_tickets, bookings.date, bookings.is_approved, bookings.time FROM movies
      INNER JOIN bookings ON movies.id = bookings.movie_id
@@ -41,13 +39,15 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-  	<link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
 	<link rel="manifest" href="/docs/5.1/assets/img/favicons/manifest.json">
 	<link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
 	<meta name="theme-color" content="#7952b3">
+  <script>window.aichatbotApiKey="0f743cfa-5977-47ad-86a7-66d71fe9d409"; window.aichatbotProviderId="f9e9c5e4-6d1a-4b8c-8d3f-3f9e9c5e46d1";</script><script src="https://script.chatlab.com/aichatbot.js" id="0f743cfa-5977-47ad-86a7-66d71fe9d409" defer></script>
  </head>
  <body>
  
@@ -70,7 +70,7 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
       <ul class="nav flex-column">
-           <?php if ($_SESSION['is_admin'] == 'true') { ?>
+           <?php if ($_SESSION['isadmin'] == 'true') { ?>
             <li class="nav-item">
               <a class="nav-link" href="home.php">
                 <span data-feather="file"></span>
@@ -137,12 +137,10 @@
               <th scope="col">Number of tickets</th>
               <th scope="col">Date</th>
               <th scope="col">Time</th>
-              <th scope="col">Approved</th>
-
             </tr>
           </thead>
           <tbody>
-          <?php if ($_SESSION['is_admin'] == 'true') { ?>
+          <?php if ($_SESSION['isadmin'] == 'true') { ?>
             <?php foreach ($bookings_data as $booking_data) { ?>
                 
                <tr>
@@ -151,12 +149,6 @@
                 <td><?php echo $booking_data['nr_tickets']; ?></td>
                 <td><?php echo $booking_data['date']; ?></td>
                 <td><?php echo $booking_data['time']; ?></td>
-                <td ><?php echo $booking_data['is_approved']; ?></td>
-
-                <td><a href="approve.php?id=<?= $booking_data['id'];?>">Approve</a></td>
-                <td><a href="decline.php?id=<?= $booking_data['id'];?>">Decline</a></td>
-              </tr>
-              
            <?php }}else{ ?>
             <?php foreach ($bookings_data as $booking_data) { ?>
             <tr>
@@ -165,7 +157,6 @@
             <td><?php echo $booking_data['nr_tickets']; ?></td>
             <td><?php echo $booking_data['date']; ?></td>
             <td><?php echo $booking_data['time']; ?></td>
-            <td ><?php echo $booking_data['is_approved']; ?></td>
            </tr>
             
            <?php } ?>

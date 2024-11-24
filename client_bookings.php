@@ -1,18 +1,33 @@
 <?php 
 
-    include_once('config.php');
+   include_once('config.php');
 
-    if (empty($_SESSION['username'])) {
-          header("Location: login.php");
-    }
+   $user_id = $_SESSION['id'];
    
-    $sql = "SELECT * FROM users";
-    $selectUsers = $conn->prepare($sql);
-    $selectUsers->execute();
+   if ($_SESSION['isadmin'] == 'true') {
 
-    $users_data = $selectUsers->fetchAll();
+     $sql = "SELECT movies.movie_name, users.email,bookings.id, bookings.nr_tickets, bookings.date, bookings.is_approved, bookings.time FROM movies
+     INNER JOIN bookings ON movies.id = bookings.movie_id
+     INNER JOIN users ON users.id = bookings.user_id";
+            
+
+    $selectBookings = $conn->prepare($sql);
+    $selectBookings->execute();
+
+    $bookings_data = $selectBookings->fetchAll();
+   }else {
     
+      $sql = "SELECT movies.movie_name, users.email, bookings.nr_tickets, bookings.date,bookings.is_approved, bookings.time
+            FROM movies INNER JOIN bookings ON movies.id = bookings.movie_id 
+            INNER JOIN users ON users.id = bookings.user_id WHERE bookings.user_id = :user_id";
 
+    $selectBookings = $conn->prepare($sql);
+    $selectBookings->bindParam(':user_id',$user_id);
+    $selectBookings->execute();
+
+    $bookings_data = $selectBookings->fetchAll();
+
+   }
  ?>
 
  <!DOCTYPE html>
@@ -42,6 +57,7 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+  <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search">
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
       <a class="nav-link px-3" href="logout.php">Sign out</a>
@@ -53,7 +69,7 @@
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
-        <ul class="nav flex-column">
+      <ul class="nav flex-column">
            <?php if ($_SESSION['isadmin'] == 'true') { ?>
             <li class="nav-item">
               <a class="nav-link" href="home.php">
@@ -73,29 +89,31 @@
               Movies
             </a>
           </li>
+          
           <li class="nav-item">
             <a class="nav-link" href="bookings.php">
               <span ></span>
               Bookings
             </a>
           </li>
-        </ul>
-        <?php }else {?>
+        
+        <?php }else{ ?>
           <li class="nav-item">
               <a class="nav-link" href="home.php">
-                Book Movies
+                <span data-feather="file"></span>
+                Home
               </a>
             </li>
-          <li class="nav-item">
-          <a class="nav-link" href="client_bookings.php">
-            <span ></span>
-           My bookings
-          </a>
-        </li>
+            <li class="nav-item">
+            <a class="nav-link" href="bookings.php">
+              <span ></span>
+              Bookings
+            </a>
+          </li>
+          
         </ul>
-      <?php
-      } ?>
 
+        <?php }?>
         
       </div>
     </nav>
@@ -103,51 +121,53 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
-        
+       
       </div>
 
-    <?php if ($_SESSION['isadmin'] == 'true') { ?>
+    
 
-      <h2>Users</h2>
+      <h2>Movie Bookings</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Name</th>
-              <th scope="col">Surname</th>
-              <th scope="col">Username</th>
-              <th scope="col">Email</th>
-              <th scope="col">Update</th>
-              <th scope="col">Delete</th>
+        
+              <th scope="col">Movie Name</th>
+              <th scope="col">User Email</th>
+              <th scope="col">Number of tickets</th>
+              <th scope="col">Date</th>
+              <th scope="col">Time</th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($users_data as $user_data) { ?>
-
+          <?php if ($_SESSION['isadmin'] == 'true') { ?>
+            <?php foreach ($bookings_data as $booking_data) { ?>
+                
                <tr>
-                <td><?php echo $user_data['id']; ?></td>
-                <td><?php echo $user_data['name']; ?></td>
-                <td><?php echo $user_data['surname']; ?></td>
-                <td><?php echo $user_data['username']; ?></td>
-                <td><?php echo $user_data['email']; ?></td>
-                <td><a href="updateUsers.php?id=<?= $user_data['id'];?>" style="text-decoration: none;" class="btn btn-primary">Update</a></td>          
-                <td><a href="deleteUsers.php?id=<?= $user_data['id'];?>" style="text-decoration: none;" class="btn btn-danger">Delete</a></td>
+                <td><?php echo $booking_data['movie_name']; ?></td>
+                <td><?php echo $booking_data['email']; ?></td>
+                <td><?php echo $booking_data['nr_tickets']; ?></td>
+                <td><?php echo $booking_data['date']; ?></td>
+                <td><?php echo $booking_data['time']; ?></td>
               </tr>
               
-           <?php  } ?>
-           
+           <?php }}else{ ?>
+            <?php foreach ($bookings_data as $booking_data) { ?>
+            <tr>
+               <td><?php echo $booking_data['movie_name']; ?></td>
+               <td><?php echo $booking_data['email']; ?></td>
+               <td><?php echo $booking_data['nr_tickets']; ?></td>
+               <td><?php echo $booking_data['date']; ?></td>
+               <td><?php echo $booking_data['time']; ?></td>
+           </tr>
+            
+           <?php } ?>
+          <?php } ?>
+             
             
           </tbody>
         </table>
       </div>
-     <?php  } else {
-      
-    } ?>
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h3>Hello make your movie bookings here</h3> <button style="text-decoration:none;"><a href="home.php">Book Movies</a></button>
-    </div>
-
     </main>
   </div>
 </div>
@@ -159,3 +179,5 @@
 </html>
 
 
+ </body>
+ </html>
